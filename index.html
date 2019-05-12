@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>House Automation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/app.css">
+    <script src="js/app.js"></script>
+</head>
+<body class="bg-dark">
+    <div class="container-fluid">
+        <h1 class="text-center pb-3 pt-3 font-weight-bold text-light">House Automation Concept</h1>
+        <div class="row">
+            <div class="col-lg-3 pl-3">
+                <ul class="list-group pl-5"></ul>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="870px" height="540px" viewBox="0 0 870 540" preserveAspectRatio="xMidYMid meet"  >
+                    <rect id="svgEditorBackground" x="0" y="0" width="870" height="540" style="fill:none; stroke: none;"/>
+                    <rect x="225.717" y="179.454" style="stroke: black; stroke-width: 2px;fill:#838300;" id="e1_rectangle" width="126" height="184" rx="0" ry="0" class="bedroom" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)"/>
+                    <line id="e2_line" x1="266.718" y1="178.454" x2="312.718" y2="178.454" style="stroke:red;fill:none;stroke-width:3px;" class="bedroom-curtains" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)"/>
+                    <line id="e3_line" x1="225.717" y1="228.454" x2="225.717" y2="295.454" style="stroke:red;fill:none;stroke-width:3px;" class="bedroom-curtains" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)"/>
+                    <rect x="225.717" y="364.455" style="fill:#008181;stroke:black;stroke-width:2px;" id="e4_rectangle" width="343" height="184" class="living" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)" ry="0" rx="0"/>
+                    <line id="e5_line" x1="224.717" y1="430.455" x2="224.717" y2="481.455" style="stroke:red;fill:none;stroke-width:3px;" class="living-curtains" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)"/>
+                    <line id="e6_line" x1="271.718" y1="548.454" x2="343.718" y2="548.454" style="stroke:red;fill:none;stroke-width:3px;" class="living-curtains" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)"/>
+                    <line id="e1_line" x1="427.718" y1="548.454" x2="499.718" y2="548.454" style="stroke:red;fill:none;stroke-width:3px;" class="living-curtains" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)"/>
+                    <rect x="352.718" y="155.763" style="fill:#1276B3;stroke:black;stroke-width:2px;" id="e7_rectangle" width="103" height="82" transform="matrix(1.30818 0 0 1.84973 106.451 -251.446)" rx="0" ry="0" class="bathroom"/>
+                    <rect x="352.293" y="295.623" style="fill:#6942BB;stroke:black;stroke-width:2px;" id="e8_rectangle" width="101" height="102" transform="matrix(1.31899 0 0 0.868545 103.305 -67.5387)" rx="0" ry="0" class="pantry"/>
+                    <rect x="454.718" y="177.454" style="fill:#a60000;stroke:black;stroke-width:2px;" id="e9_rectangle" width="113" height="185" transform="matrix(1.30818 0 0 1.30818 107.76 -196.813)" class="kitchen" rx="0" ry="0"/>
+                    <line id="e4_line" x1="495.718" y1="179.454" x2="541.717" y2="179.454" style="stroke:red;fill:none;stroke-width:3px;" class="kitchen-curtains" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)"/>
+                    <line id="e7_line" x1="568.716" y1="219.454" x2="568.716" y2="286.454" style="stroke:red;fill:none;stroke-width:3px;" class="kitchen-curtains" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)"/>
+                    <text style="fill:black;font-family:Arial;font-size:20px;" x="247.717" y="262.454" id="e10_texte" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)">Bedroom</text>
+                    <text style="fill:black;font-family:Arial;font-size:20px;" x="361.718" y="236.454" id="e11_texte" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)">Bathroom</text>
+                    <text style="fill:black;font-family:Arial;font-size:20px;" x="477.718" y="246.454" id="e13_texte" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)">Kitchen</text>
+                    <text style="fill:black;font-family:Arial;font-size:20px;" x="376.718" y="339.455" id="e14_texte" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)">Pantry</text>
+                    <text style="fill:black;font-family:Arial;font-size:20px;" x="365.718" y="473.455" id="e15_texte" transform="matrix(1.30818 0 0 1.30818 106.451 -199.429)">Living</text>
+                    <text style="fill:black;font-family:Arial;font-size:14px;" x="410" y="270" id="e16_texte" class="bedroom-temperature"></text>
+                    <text style="fill:black;font-family:Arial;font-size:14px;" x="580" y="180" id="e17_texte" class="bathroom-temperature"></text>
+                    <text style="fill:black;font-family:Arial;font-size:14px;" x="580" y="270" id="e18_texte" class="pantry-temperature"></text>
+                    <text style="fill:black;font-family:Arial;font-size:14px;" x="710" y="270" id="e19_texte" class="kitchen-temperature"></text>
+                    <text style="fill:black;font-family:Arial;font-size:14px;" x="410" y="500" id="e20_texte" class="living-temperature"></text>
+                </svg>
+            </div>
+        </div>
+    </div>
+</body>

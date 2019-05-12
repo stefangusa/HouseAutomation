@@ -1,0 +1,25 @@
+{
+  "living": {
+    "light": "off",
+    "curtains": "off",
+    "temperature": "23"
+  },
+  "bedroom": {
+    "light": "off",
+    "curtains": "off",
+    "temperature": "23"
+  },
+  "kitchen": {
+    "light": "off",
+    "curtains": "off",
+    "temperature": "23"
+  },
+  "bathroom": {
+    "light": "off",
+    "temperature": "23"
+  },
+  "pantry": {
+    "light": "off",
+    "temperature": "23"
+  }
+}
