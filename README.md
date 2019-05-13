@@ -9,6 +9,8 @@ query '/' or 'index.html'.
 
 Technologies used in the application development are: HTML, CSS, Bootstrap, Javascript, jQuery (+ AJAX).
 
+The application was tested on Safari, Google Chrome, Mozilla Firefox.
+
 
 The components are the following:
 
