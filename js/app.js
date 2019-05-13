@@ -2,8 +2,13 @@ $(document).ready(function() {
 
     let configuration = null;
     let colors = ["primary", "secondary", "success", "danger", "warning", "info"];
+    let CHANGING_STEP = 100;
+    let COLOR_MIN = 0;
+    let COLOR_MAX = 255;
 
-    function initControls() {
+    // function where initial data about the house are read from the server
+    // each room of the house creates a new <li> component inside the existent <ul> in index.html
+    function createControls() {
         $.get("server/initialConfiguration.json").done(function (data) {
             configuration = data;
 
@@ -18,27 +23,43 @@ $(document).ready(function() {
             });
 
             $(".list-group").append(components);
-            addAttributes()
+
+            addAttributes();
         });
     }
 
+
+    // function where for each room its attributes are converted in a new component
     function addAttributes() {
+
         Object.keys(configuration).forEach(function (room) {
             Object.entries(configuration[room]).forEach(function ([attribute, value]) {
+
+                // a new <p> for each attribute is created
                 let attributeContainer = $(`#attr-${room}`);
                 let attributeHtml = `<p id="${attribute}-${room}">`;
                 attributeHtml += `${attribute.charAt(0).toUpperCase() + attribute.slice(1)}: `;
 
+                // depending on the attribute, different components are added to its <p>
                 switch (attribute) {
+                    // in case of light and curtains, toggle buttons will be added
                     case "light":
                     case "curtains":
                         attributeHtml += createToggleButton(value, attribute, room);
                         attributeContainer.append(attributeHtml + `</p>`);
 
-                        $(`#checkbox-${attribute}-${room}`).click(function () {
+                        // a click handler is added to the toggle button
+                        $(`#toggle-${attribute}-${room}`).click(function () {
+
+                            // firstly, the attribute value is changed
                             configuration[room][attribute] =
                                 configuration[room][attribute].localeCompare("on") === 0 ? "off" : "on";
 
+                            /*
+                                then, if the attribute is curtains and they are being closed (off),
+                                the room is enlightened and they do not show up on the image, otherwise
+                                the room is darkened and the curtains show up on the image
+                            */
                             if (attribute.localeCompare("curtains") === 0) {
                                 if (configuration[room][attribute].localeCompare("on") === 0) {
                                     $(`.${room}-curtains`).show();
@@ -49,6 +70,10 @@ $(document).ready(function() {
                                     changeColor(room, "brighten");
                                 }
                             } else {
+                                /*
+                                    if the attribute is light, when it is switched on, the room
+                                    enlightens, otherwise the room is darkened
+                                 */
                                 if (configuration[room][attribute].localeCompare("on") === 0) {
                                     changeColor(room, "brighten");
                                 } else {
@@ -60,15 +85,20 @@ $(document).ready(function() {
                         break;
 
                     case "temperature":
-                        attributeHtml += createMinusButton(attribute, room);
+                        // in case of temperature, two buttons (+ and -) are create along with
+                        // the current value of the temperature (in Celsius)
+                        attributeHtml += createButton(attribute, room, "minus");
                         attributeHtml += ` <span id="${attribute}-${room}-value">${value}</span> `;
-                        attributeHtml += createPlusButton(attribute, room);
+                        attributeHtml += createButton(attribute, room, "plus");
 
                         attributeContainer.append(attributeHtml + `</p>`);
 
+                        // the current temperature is also displayed in the image
                         let roomTemperature = $(`.${room}-temperature`);
                         roomTemperature.html(configuration[room][attribute] + "&#176;C");
 
+                        // a click handler is attached for each button
+                        // for the minus button, the temperature is lowered by 0.5oC until 16oC
                         $(`#button-${attribute}-${room}-minus`).click(function () {
                             let temperature = parseFloat(configuration[room][attribute]);
                             if (temperature > 16) {
@@ -78,25 +108,29 @@ $(document).ready(function() {
                             }
                         });
 
+                        // for the plus button, the temperature is raised by 0.5oC until 28oC
                         $(`#button-${attribute}-${room}-plus`).click(function () {
                             let temperature = parseFloat(configuration[room][attribute]);
-                            if (temperature < 26) {
+                            if (temperature < 28) {
                                 configuration[room][attribute] = (temperature + 0.5).toString();
                                 $(`#${attribute}-${room}-value`).text(configuration[room][attribute]);
                                 roomTemperature.html(configuration[room][attribute] + "&#176;C");
                             }
                         });
 
-                    // Can be extended with other options
+                    // here, the code can be extended with other attributes
                 }
             });
 
+            // the attributes paragraph slides when clicking on the room name
             $(`#title-${room}`).click(function() {
                 $(`#attr-${room}`).slideToggle("slow");
             })
         })
     }
 
+
+    // method that creates a toggle button, with id and value based on parameters
     function createToggleButton(value, attribute, room) {
         let checked = value.localeCompare("on") === 0 ? "checked" : "";
 
@@ -105,29 +139,34 @@ $(document).ready(function() {
         }
 
         return `<label class="switch">
-                  <input type="checkbox" ${checked} id="checkbox-${attribute}-${room}">
+                  <input type="checkbox" ${checked} id="toggle-${attribute}-${room}">
                   <span class="slider round"></span>
                 </label>`
     }
 
-    function createMinusButton(attribute, room) {
+
+    // method that creates a button with id and displayed text based on parameters
+    function createButton(attribute, room, value) {
+        let displayedValue = value;
+        let color = colors[0];
+
+        if (value.localeCompare("plus") === 0) {
+            displayedValue = "+";
+            color = colors[3];
+        } else if (value.localeCompare("minus") === 0) {
+            displayedValue = "-";
+            color = colors[0]
+        }
+
         return `<button type="button" 
-                        id="button-${attribute}-${room}-minus"
-                        class="btn btn-primary btn-sm">
-                    -
+                        id="button-${attribute}-${room}-${value}"
+                        class="btn btn-${color} btn-sm">
+                    ${displayedValue}
                 </button>`;
     }
 
 
-    function createPlusButton(attribute, room) {
-        return `<button type="button" 
-                        id="button-${attribute}-${room}-plus"
-                        class="btn btn-danger btn-sm">
-                    +
-                </button>`;
-    }
-
-
+    // method that changes the colour of a component with CHANGING_STEP based on the flag
     function changeColor(room, flag) {
         let roomElement = $(`.${room}`);
         let color = roomElement.css("fill");
@@ -138,17 +177,19 @@ $(document).ready(function() {
             let value = parseInt(valueStr);
 
             if (value > 0) {
+                // if the flag is "darken", the rgb values are lowered by CHANGING_STEP, otherwise raised
                 if (flag.localeCompare("darken") === 0) {
-                    value -= 100;
+                    value -= CHANGING_STEP;
                 } else {
-                    value += 100;
+                    value += CHANGING_STEP;
                 }
-            }
 
-            if (value < 0) {
-                value = 0;
-            } else if (value > 255) {
-                value = 255;
+                // make sure rgb values do not exceed the limits
+                if (value < COLOR_MIN) {
+                    value = COLOR_MIN;
+                } else if (value > COLOR_MAX) {
+                    value = COLOR_MAX;
+                }
             }
 
             finalRGB += value.toString() + ", "
@@ -158,6 +199,5 @@ $(document).ready(function() {
         roomElement.css("fill", finalRGB);
     }
 
-
-    initControls();
+    createControls();
 });
